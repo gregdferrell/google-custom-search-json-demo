@@ -30,13 +30,14 @@ class GoogleCustomSearchDemo(http.server.BaseHTTPRequestHandler):
     google_custom_search_engine_id = config['DEFAULT']['GoogleCustomSearchEngineId']
     google_custom_search_api_key = config['DEFAULT']['GoogleCustomSearchApiKey']
 
-    def do_GET(self):
+    def do_GET(self, error_message=''):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
         # Send the form with the messages in it.
-        self.wfile.write(form.format('<br>').encode())
+
+        self.wfile.write(form.format('<br>{}'.format(error_message)).encode())
 
     def do_POST(self):
         # Decode the form data.
@@ -46,7 +47,7 @@ class GoogleCustomSearchDemo(http.server.BaseHTTPRequestHandler):
 
         # Return main page if user didn't enter search terms.
         if "searchString" not in params:
-            self.do_GET()
+            self.do_GET('The search field is required.')
             return
 
         search_string = params["searchString"][0]
@@ -54,13 +55,18 @@ class GoogleCustomSearchDemo(http.server.BaseHTTPRequestHandler):
         # Construct URL and call API
         url = 'https://www.googleapis.com/customsearch/v1?q={}&cx={}&key={}'.format(search_string, self.google_custom_search_engine_id, self.google_custom_search_api_key)
         response = requests.get(url)
+        if response.status_code != 200:
+            self.do_GET('Search returned an error.')
+            return
+
         data = response.json()
 
         # Convert Results to HTML
         num_results = data.get('searchInformation').get('formattedTotalResults')
         search_time = data.get('searchInformation').get('formattedSearchTime')
         h = '<p>About {} results ({} seconds)</p><hr />'.format(num_results, search_time)
-        h = h + self.get_html_div_from_search_results(data.get('items'))
+        if int(num_results) > 0:
+            h = h + self.get_html_div_from_search_results(data.get('items'))
         html = form.format(h)
 
         # Send a 200 OK response.
