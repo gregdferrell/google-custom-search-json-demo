@@ -1,2 +1,3 @@
 .idea/
-demo.ini
+demo-basic/demo.ini
+demo-flask/demo.ini
