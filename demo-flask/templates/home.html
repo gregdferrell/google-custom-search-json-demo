@@ -4,12 +4,7 @@
     <title>Google Custom Search Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <style type="text/css">
-        .container {
-            max-width: 700px;
-            padding-top: 40px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
 <nav class="navbar navbar-inverse" role="navigation">
@@ -25,15 +20,40 @@
 <div class="container">
     <h1>Google Custom Search Demo</h1>
     <br>
-
     <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
+            <input type="text" class="form-control" name="searchString">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Search</button>
     </form>
 
-    <br>
+    {% if num_results > 0 %}
+    <div class="gsc-results">
+        <p class="gsc-search-result-info">
+            About {{num_results}} results ({{search_time}} seconds)
+        </p>
+
+        {% for result in results %}
+        <div class="gsc-result">
+            <p class="gsc-title">
+                <a href="{{result.get('link')}}">{{result.get('htmlTitle') | safe}}</a>
+            </p>
+            {% if 'fileFormat' in result %}
+            <p>
+                <span class="gsc-file-format-label">File Format:</span>
+                <span class="gsc-file-format">{{result.get('fileFormat')}}</span>
+            </p>
+            {% endif %}
+            <p class="gsc-snippet">
+                {{result.get('htmlSnippet') | safe}}
+            </p>
+            <p class="gsc-url-bottom">
+                {{result.get('htmlFormattedUrl') | safe}}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
 
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>

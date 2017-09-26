@@ -1,0 +1,55 @@
+/* Styles for google custom search demo */
+
+.container {
+    max-width: 700px;
+}
+
+.gsc-results {
+    margin-top: 80px;
+}
+
+.gsc-search-result-info {
+    border-bottom: 1px solid #E9E9E9;
+    color: #676767;
+    font-size: 13px;
+    padding: 5px 0 5px 8px;
+    margin: 10px 0 10px 0;
+    text-align: left;
+}
+
+.gsc-result {
+    margin-bottom: 20px;
+}
+
+.gsc-result p {
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+.gsc-title {
+    color: #0000CC;
+    font-size: 16px;
+    height: 1.25em;
+    text-decoration: underline;
+}
+
+.gsc-file-format-label {
+    color: #666666;
+    font-size: 12px;
+}
+
+.gsc-file-format {
+    color: #000000;
+    font-size: 12px;
+}
+
+.gsc-snippet {
+    color: #000000;
+    font-size: 13px;
+    text-align: left;
+}
+
+.gsc-url-bottom {
+    color: #008000;
+    font-size: 13px;
+}
