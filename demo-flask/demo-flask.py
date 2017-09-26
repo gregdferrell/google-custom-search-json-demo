@@ -11,8 +11,7 @@ google_custom_search_api_key = config['DEFAULT']['GoogleCustomSearchApiKey']
 
 def get_paging_links(start_index, num_results):
     '''
-    Gets a tuple of paging links given the current start index and the number of
-    results for the search query.
+    Gets a list of tuples representing paging links for the given arguments.
     :param start_index: the start index of the search request
     :param num_results: the total number of search results
     :return: A tuple containing paging info (boolean, str, str):
