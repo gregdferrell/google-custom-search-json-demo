@@ -27,31 +27,58 @@
         <button type="submit" class="btn btn-default">Search</button>
     </form>
 
-    {% if num_results > 0 %}
+    {% if search_string != '' %}
     <div class="gsc-results">
+
         <p class="gsc-search-result-info">
-            About {{num_results}} results ({{search_time}} seconds)
+            {{search_result_message}}
         </p>
 
+        {% if num_results > 0 %}
         {% for result in results %}
-        <div class="gsc-result">
-            <p class="gsc-title">
-                <a href="{{result.get('link')}}">{{result.get('htmlTitle') | safe}}</a>
-            </p>
-            {% if 'fileFormat' in result %}
-            <p>
-                <span class="gsc-file-format-label">File Format:</span>
-                <span class="gsc-file-format">{{result.get('fileFormat')}}</span>
-            </p>
-            {% endif %}
-            <p class="gsc-snippet">
-                {{result.get('htmlSnippet') | safe}}
-            </p>
-            <p class="gsc-url-bottom">
-                {{result.get('htmlFormattedUrl') | safe}}
-            </p>
-        </div>
+        <table class="gsc-results-table">
+            <tr>
+                {% if 'pagemap' in result and 'cse_thumbnail' in result.get('pagemap') %}
+                <td>
+                    <img src="{{result.get('pagemap').get('cse_thumbnail')[0].get('src')}}"/>
+                </td>
+                {% endif %}
+
+                <td class="gsc-result">
+                    <p class="gsc-title">
+                        <a href="{{result.get('link')}}">{{result.get('htmlTitle') | safe}}</a>
+                    </p>
+                    {% if 'fileFormat' in result %}
+                    <p>
+                        <span class="gsc-file-format-label">File Format:</span>
+                        <span class="gsc-file-format">{{result.get('fileFormat')}}</span>
+                    </p>
+                    {% endif %}
+                    <p class="gsc-snippet">
+                        {{result.get('htmlSnippet') | safe}}
+                    </p>
+                    <p class="gsc-url-bottom">
+                        {{result.get('htmlFormattedUrl') | safe}}
+                    </p>
+                </td>
+            </tr>
+        </table>
         {% endfor %}
+        {% endif %}
+
+        {% if paging_links | length > 0 %}
+        <div class="gsc-pagination-container">
+            {% for paging_link in paging_links %}
+            {% if paging_link[0] == True %}
+            <div class="gsc-pagination-link">{{paging_link[1]}}</div>
+            {% else %}
+            <div class="gsc-pagination-link"><a href="/?searchString={{search_string}}&searchStart={{paging_link[2]}}">{{paging_link[1]}}</a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
     </div>
     {% endif %}
 </div>

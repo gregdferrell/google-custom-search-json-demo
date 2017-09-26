@@ -17,8 +17,20 @@
     text-align: left;
 }
 
+.gsc-results-table {
+    border-collapse: separate;
+    border-spacing: 6px 8px;
+}
+
+.gsc-results-table tr td {
+    vertical-align: top;
+}
+
+.gsc-results-table tr td img {
+    width: 62px;
+}
+
 .gsc-result {
-    margin-bottom: 20px;
 }
 
 .gsc-result p {
@@ -52,4 +64,18 @@
 .gsc-url-bottom {
     color: #008000;
     font-size: 13px;
+}
+
+div.gsc-pagination-container {
+    margin: 10px 0 40px 0;
+    text-align: center;
+}
+
+div.gsc-pagination-link {
+    display: inline;
+    margin-right: 8px;
+}
+
+div.gsc-pagination-link a {
+    text-decoration: underline;
 }
