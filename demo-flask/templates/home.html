@@ -68,12 +68,11 @@
 
         {% if paging_links | length > 0 %}
         <div class="gsc-pagination-container">
-            {% for paging_link in paging_links %}
-            {% if paging_link[0] == True %}
-            <div class="gsc-pagination-link">{{paging_link[1]}}</div>
+            {% for i in range(1, [100, num_results]|sort|first, 10) %}
+            {% if search_start == (i | string) %}
+            <div class="gsc-pagination-link">{{loop.index}}</div>
             {% else %}
-            <div class="gsc-pagination-link"><a href="/?searchString={{search_string}}&searchStart={{paging_link[2]}}">{{paging_link[1]}}</a>
-            </div>
+            <div class="gsc-pagination-link"><a href="/?searchString={{search_string}}&searchStart={{i}}">{{loop.index}}</a></div>
             {% endif %}
             {% endfor %}
         </div>

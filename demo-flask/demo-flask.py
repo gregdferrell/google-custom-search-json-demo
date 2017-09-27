@@ -9,22 +9,6 @@ google_custom_search_engine_id = config['DEFAULT']['GoogleCustomSearchEngineId']
 google_custom_search_api_key = config['DEFAULT']['GoogleCustomSearchApiKey']
 
 
-def get_paging_links(start_index, num_results):
-    '''
-    Gets a list of tuples representing paging links for the given arguments.
-    :param start_index: the start index of the search request
-    :param num_results: the total number of search results
-    :return: A tuple containing paging info (boolean, str, str):
-        (link_is_current_page, link_text, link_start_index)
-    '''
-    paging_links = []
-    count = 0
-    for i in range(1, min(100, num_results), 10):
-        count += 1
-        paging_links.append((True if start_index == i else False, count, i))
-    return paging_links
-
-
 @app.route("/", methods=['GET'])
 def home():
     # Get search request param and log it
@@ -54,10 +38,9 @@ def home():
     search_result_message = 'No results found ({} seconds)'.format(
         search_time) if num_results == 0 else 'About {} results ({} seconds)'.format(num_results, search_time)
     start_index = data.get('queries').get('request')[0].get('startIndex')
-    paging_links = get_paging_links(start_index, num_results)
 
     return render_template('home.html', search_string=search_string, search_result_message=search_result_message,
-                           num_results=num_results, search_time=search_time, results=results, paging_links=paging_links)
+                           num_results=num_results, search_start=search_start, search_time=search_time, results=results)
 
 
 if __name__ == '__main__':
