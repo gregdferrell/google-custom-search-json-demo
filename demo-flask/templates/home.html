@@ -66,9 +66,9 @@
         {% endfor %}
         {% endif %}
 
-        {% if paging_links | length > 0 %}
+        {% if num_results > page_size %}
         <div class="gsc-pagination-container">
-            {% for i in range(1, [100, num_results]|sort|first, 10) %}
+            {% for i in range(1, [100, num_results]|sort|first, page_size) %}
             {% if search_start == (i | string) %}
             <div class="gsc-pagination-link">{{loop.index}}</div>
             {% else %}
