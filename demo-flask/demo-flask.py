@@ -19,17 +19,21 @@ def home():
     print('search start: ' + search_start)
 
     if search_string == '':
-        return render_template('home.html', search_string='', search_result_message='', num_results=0,
+        return render_template('home.html', search_string='',
+                               search_result_message='', num_results=0,
                                page_size=page_size)
 
     # Construct URL and call API
     url = 'https://www.googleapis.com/customsearch/v1?q={}&start={}&cx={}&key={}'.format(
-        search_string, search_start, google_custom_search_engine_id, google_custom_search_api_key)
+        search_string, search_start, google_custom_search_engine_id,
+        google_custom_search_api_key)
     response = requests.get(url)
 
     if response.status_code != 200:
-        search_result_message = 'Search returned an error: {} {}'.format(response.status_code, response.reason)
-        return render_template('home.html', search_string=search_string, search_result_message=search_result_message,
+        search_result_message = 'Search returned an error: {} {}'.format(
+            response.status_code, response.reason)
+        return render_template('home.html', search_string=search_string,
+                               search_result_message=search_result_message,
                                num_results=0, page_size=page_size)
 
     # Render search results
@@ -38,10 +42,13 @@ def home():
     search_time = data.get('searchInformation').get('formattedSearchTime')
     results = data.get('items')
     search_result_message = 'No results found ({} seconds)'.format(
-        search_time) if num_results == 0 else 'About {} results ({} seconds)'.format(num_results, search_time)
+        search_time) if num_results == 0 else 'About {} results ({} seconds)'.format(
+        num_results, search_time)
 
-    return render_template('home.html', search_string=search_string, search_result_message=search_result_message,
-                           num_results=num_results, search_start=search_start, search_time=search_time, results=results,
+    return render_template('home.html', search_string=search_string,
+                           search_result_message=search_result_message,
+                           num_results=num_results, search_start=search_start,
+                           search_time=search_time, results=results,
                            page_size=page_size)
 
 

@@ -27,7 +27,8 @@ form = '''<!DOCTYPE html>
 class GoogleCustomSearchDemo(http.server.BaseHTTPRequestHandler):
     config = configparser.ConfigParser()
     config.read('demo.ini')
-    google_custom_search_engine_id = config['DEFAULT']['GoogleCustomSearchEngineId']
+    google_custom_search_engine_id = config['DEFAULT'][
+        'GoogleCustomSearchEngineId']
     google_custom_search_api_key = config['DEFAULT']['GoogleCustomSearchApiKey']
 
     def do_GET(self, error_message=''):
@@ -53,7 +54,9 @@ class GoogleCustomSearchDemo(http.server.BaseHTTPRequestHandler):
         search_string = params["searchString"][0]
 
         # Construct URL and call API
-        url = 'https://www.googleapis.com/customsearch/v1?q={}&cx={}&key={}'.format(search_string, self.google_custom_search_engine_id, self.google_custom_search_api_key)
+        url = 'https://www.googleapis.com/customsearch/v1?q={}&cx={}&key={}'.format(
+            search_string, self.google_custom_search_engine_id,
+            self.google_custom_search_api_key)
         response = requests.get(url)
         if response.status_code != 200:
             self.do_GET('Search returned an error.')
@@ -64,7 +67,8 @@ class GoogleCustomSearchDemo(http.server.BaseHTTPRequestHandler):
         # Convert Results to HTML
         num_results = data.get('searchInformation').get('formattedTotalResults')
         search_time = data.get('searchInformation').get('formattedSearchTime')
-        h = '<p>About {} results ({} seconds)</p><hr />'.format(num_results, search_time)
+        h = '<p>About {} results ({} seconds)</p><hr />'.format(num_results,
+                                                                search_time)
         if int(num_results) > 0:
             h = h + self.get_html_div_from_search_results(data.get('items'))
         html = form.format(h)
