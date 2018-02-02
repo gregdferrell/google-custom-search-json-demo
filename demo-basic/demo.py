@@ -1,7 +1,8 @@
 import configparser
 import http.server
+from urllib.parse import parse_qs
+
 import requests
-from urllib.parse import unquote, parse_qs
 
 form = '''<!DOCTYPE html>
 <html>
