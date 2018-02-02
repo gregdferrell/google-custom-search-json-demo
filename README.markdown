@@ -13,7 +13,7 @@ Simple web server that serves up a page that takes a search term from a form and
 * requests==2.18.4
 
 ### Setup
-* Copy demo-template.ini to demo.ini
+* Copy `demo-template.ini` to `demo.ini`
 * Register with Google for a custom search engine and API key
 * Configure your custom search engine ID and API key in `demo.ini`
 
